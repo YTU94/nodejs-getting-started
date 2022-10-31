@@ -9,36 +9,37 @@ export class UserService {
   @Config('coolAppConfig')
   demoConfig;
 
-   /**
+  /**
    * 获取用户信息
    */
   async getUserInfo(requestAuthCode: string) {
-    try{
+    try {
       const access_token = await this.getToken();
-      const res = await makeHttpRequest( 
+      const res = await makeHttpRequest(
         `https://oapi.dingtalk.com/user/getuserinfo?access_token=${access_token}&code=${requestAuthCode}`,
         {
           dataType: 'json',
           contentType: 'json',
         }
       );
-      if(res.data && res.data.userid){
+      if (res.data && res.data.userid) {
         const info = await this.getUserProfile(res.data.userid);
-        if(info){
+        if (info) {
           return {
-            name:res.data.name,
+            name: res.data.name,
             userid: res.data.userid,
-            avatar: info.avatar
-          }
+            avatar: info.avatar,
+          };
         }
       }
-    } catch(error){
+    } catch (error) {
+      console.log('error', error)
       this.logger.error(error);
       throw new MidwayError(error);
     }
   }
 
-   /**
+  /**
    * 获取token
    */
   async getToken() {
@@ -61,7 +62,8 @@ export class UserService {
   async getUserProfile(uid: string) {
     try {
       const access_token = await this.getToken();
-      const result = await makeHttpRequest( // https://open.dingtalk.com/document/orgapp-server/query-user-details
+      const result = await makeHttpRequest(
+        // https://open.dingtalk.com/document/orgapp-server/query-user-details
         `https://oapi.dingtalk.com/topapi/v2/user/get?access_token=${access_token}`,
         {
           dataType: 'json',

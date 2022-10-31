@@ -51,6 +51,25 @@ const Home: React.FC = () => {
       });
   }, []);
 
+  const handleSubmit = React.useCallback(async () => {
+    const { name, phone } = form.getFieldsValue();
+    if (!phone || !name) {
+      Toast.info({ content: '填写信息' });
+      return;
+    }
+    axios
+      .post('/api/sendText', {
+        txt: name,
+        phone: phone,
+        openConversationId,
+      })
+      .then((res) => {
+        Toast.success({ content: '发送成功' });
+      })
+      .catch((err) => {
+        Toast.fail({ content: err.message });
+      });
+  }, [openConversationId]);
 
   const sendTopCard = React.useCallback(async () => {
     axios
@@ -109,16 +128,19 @@ const Home: React.FC = () => {
           </div>
         </div>
       </Card>
-
-      <Card title={'已实现的吊顶卡片'} >
-        <Button type="primary" onClick={sendMessageCard} block>
-          发起群邀请卡片
-        </Button>
-      </Card>
-      <Card title={'已实现的吊顶卡片'} >
-        <Button type="primary" onClick={sendTopCard} block>
-          发送统计吊顶
-        </Button>
+      <Card title={'发起推荐'}>
+        <Form name="basic" form={form} onFinish={handleSubmit}>
+          <Form.Item label="推荐人" name="name" rules={[{ required: true }]}>
+            <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item label="电  话" name="phone" rules={[{ required: true }]}>
+            <Input placeholder="请输入" />
+          </Form.Item>
+          <Divider></Divider>
+          <Button htmlType="submit" type="primary" block>
+            提交
+          </Button>
+        </Form>
       </Card>
     </div>
   );

@@ -27,9 +27,10 @@ export class CardService {
       robotCode: request.robotCode || this.demoConfig.robotCode,
       coolAppCode: request.coolAppCode || this.demoConfig.coolAppCode,
     };
-    try { // https://open.dingtalk.com/document/group/the-robot-sends-a-group-message
+    try {
+      // https://open.dingtalk.com/document/group/the-robot-sends-a-group-message
       const result = await makeHttpRequest(
-        `https://api.dingtalk.com//v1.0/robot/groupMessages/send`,
+        'https://api.dingtalk.com//v1.0/robot/groupMessages/send',
         {
           method: 'POST',
           dataType: 'json',
@@ -62,13 +63,15 @@ export class CardService {
       robotCode: this.demoConfig.robotCode,
       cardData: JSON.stringify({
         title: '来自nodejs-getting-started',
-        videoUrl:'https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/d/ud/352793594610.mp4',
+        videoUrl:
+          'https://cloud.video.taobao.com/play/u/null/p/1/e/6/t/1/d/ud/352793594610.mp4',
       }),
     };
 
-    try { // https://open.dingtalk.com/document/group/robots-send-interactive-cards
+    try {
+      // https://open.dingtalk.com/document/group/robots-send-interactive-cards
       const result = await makeHttpRequest(
-        `https://api.dingtalk.com/v1.0/im/v1.0/robot/interactiveCards/send`,
+        'https://api.dingtalk.com/v1.0/im/v1.0/robot/interactiveCards/send',
         {
           dataType: 'json',
           method: 'POST',
@@ -99,21 +102,23 @@ export class CardService {
       openConversationId: cid,
       outTrackId,
       robotCode: this.demoConfig.robotCode,
-      conversationType:1,
+      conversationType: 1,
       cardData: {
-        cardParamMap:{
-          "total": "20",
-          "finished": "17",
-          "progress": "65",
-          "yesterdayNew": "2",
-          "yesterdayFinished": "3"
-        }
+        cardParamMap: {
+          total: '20',
+          maxUser: '迟山',
+          finished: '17',
+          progress: '65',
+          yesterdayNew: '2',
+          yesterdayFinished: '3',
+        },
       },
     };
 
-    try { // https://open.dingtalk.com/document/orgapp-server/create-an-interactive-card-instance-1
+    try {
+      // https://open.dingtalk.com/document/orgapp-server/create-an-interactive-card-instance-1
       const result = await makeHttpRequest(
-        `https://api.dingtalk.com/v1.0/im/interactiveCards/instances`,
+        'https://api.dingtalk.com/v1.0/im/interactiveCards/instances',
         {
           dataType: 'json',
           method: 'POST',
@@ -124,18 +129,18 @@ export class CardService {
           },
         }
       );
-      if(result && result.data && result.data.processQueryKey){
+      if (result && result.data && result.data.processQueryKey) {
         const topResult = await makeHttpRequest(
-          `https://api.dingtalk.com/v1.0/im/topBoxes/open`,
+          'https://api.dingtalk.com/v1.0/im/topBoxes/open',
           {
             dataType: 'json',
             method: 'POST',
             contentType: 'json',
-            data:{
+            data: {
               outTrackId,
-              openConversationId:cid,
-              expiredTime:Date.now() + 24 * 60 * 1000,
-              coolAppCode:this.demoConfig.coolAppCode
+              openConversationId: cid,
+              expiredTime: Date.now() + 24 * 60 * 1000,
+              coolAppCode: this.demoConfig.coolAppCode,
             },
             headers: {
               'x-acs-dingtalk-access-token': access_token,

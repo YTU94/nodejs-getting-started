@@ -1,16 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 // import { IBaseProps } from '@/interface';
-
+import axios from 'axios';
+import { Toast } from 'dingtalk-design-mobile';
 import styles from './index.less';
 
-interface IProps { }
+export default function Index() {
+  const [num, setNum] = useState();
+  useEffect(() => {
+    axios
+      .post('/api/getPushcode')
+      .then((res) => {
+        // Toast.success({ content: '发送群吊顶卡片成功' });
+        setNum(res?.code);
+      })
+      .catch((err) => {
+        Toast.fail({ content: err.message });
+      });
+  }, []);
 
-export default function Index(props: IProps) {
-  const { } = props;
   return (
     <div className={styles.root}>
       <p className="">我的推荐码</p>
-      <p className="">UM13</p>
+      <p className="">{num ?? '暂无'}</p>
     </div>
-  )
+  );
 }

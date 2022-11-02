@@ -71,33 +71,6 @@ const Home: React.FC = () => {
       });
   }, [openConversationId]);
 
-  const sendTopCard = React.useCallback(async () => {
-    axios
-      .post('/api/sendTopCard', {
-        openConversationId,
-      })
-      .then((res) => {
-        Toast.success({ content: '发送群吊顶卡片成功' });
-      })
-      .catch((err) => {
-        Toast.fail({ content: err.message });
-      });
-  }, []);
-
-  const sendMessageCard = React.useCallback(async () => {
-    axios
-      .post('/api/sendMessageCard', {
-        txt: '',
-        openConversationId,
-      })
-      .then((res) => {
-        Toast.success({ content: '发送互动卡片成功' });
-      })
-      .catch((err) => {
-        Toast.fail({ content: err.message });
-      });
-  }, []);
-
   return (
     <div className="page-container">
       {/* <div className="top">

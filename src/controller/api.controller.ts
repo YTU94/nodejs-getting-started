@@ -35,6 +35,18 @@ export class APIController {
     return { success: true, code: 200, message: 'OK', data: result };
   }
 
+  @Post('/getPushcode')
+  async getPushcode() {
+    return {
+      success: true,
+      code: 200,
+      message: 'OK',
+      data: {
+        code: Math.random(1).toFixed(4) * 10000,
+      },
+    };
+  }
+
   @Post('/sendMessageCard')
   async sendMessageCard(@Body('openConversationId') cid) {
     const result = await this.cardService.sendInteractiveCard(cid);
@@ -104,7 +116,7 @@ export class APIController {
     const result = await this.userService.getUserProfile(uid);
     return { success: true, code: 200, message: 'OK', data: result };
   }
-  
+
   @Get('/getSSOUserInfo')
   async getSSOUserInfo(@Query('requestAuthCode') requestAuthCode) {
     const result = await this.userService.getSSOUserInfo(requestAuthCode);

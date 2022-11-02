@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   }>();
 
   useEffect(() => {
-    console.log('corpId =>>>', query.get('corpId'));
+    console.log('corpId =>>>', query.get('corpId'), query.get('corpid'));
     // 获取免登授权码 https://open.dingtalk.com/document/orgapp-client/obtain-the-micro-application-logon-free-authorization-code
     dd.runtime.permission
       .requestAuthCode({

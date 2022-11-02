@@ -42,7 +42,7 @@ export class APIController {
       code: 200,
       message: 'OK',
       data: {
-        code: Math.random(1).toFixed(4) * 10000,
+        code: +Math.random().toFixed(4) * 10000,
       },
     };
   }

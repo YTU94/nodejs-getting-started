@@ -25,14 +25,23 @@ export class APIController {
 
   @Post('/sendText')
   async sendText(@Body('openConversationId') cid, @Body('txt') txt) {
-    const result = await this.cardService.sendGroupMessage({
-      msgParam: JSON.stringify({
-        content: 'nodejs-getting-started say : ' + txt || '今天吃肘子',
-      }),
-      msgKey: 'sampleText',
-      openConversationId: cid,
+    // const result = await this.cardService.sendGroupMessage({
+    //   msgParam: JSON.stringify({
+    //     content: 'nodejs-getting-started say : ' + txt || '今天吃肘子',
+    //   }),
+    //   msgKey: 'sampleText',
+    //   openConversationId: cid,
+    // });
+    const mysql = require('mysql2/promise');
+    // create the connection
+    const connection = await mysql.createConnection({
+      host: 'mysql.sqlpub.com:3306',
+      user: 'yuanjiankang',
+      database: 'testmydb',
     });
-    return { success: true, code: 200, message: 'OK', data: result };
+    // query database
+    const [rows] = await connection.execute('SELECT * FROM `runoob_tbl`');
+    return { success: true, code: 200, message: 'OK', data: { result: rows } };
   }
 
   @Post('/getPushcode')

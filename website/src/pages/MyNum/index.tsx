@@ -10,9 +10,9 @@ export default function Index() {
     axios
       .post('/api/getPushcode')
       .then((res) => {
-        console.log('getPushcode res', res)
+        console.log('getPushcode res', res);
         // Toast.success({ content: '发送群吊顶卡片成功' });
-        setNum(res?.data?.code);
+        setNum(res?.data?.data?.code);
       })
       .catch((err) => {
         Toast.fail({ content: err.message });
